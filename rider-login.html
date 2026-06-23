@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda Ke – Join Our Rider Team</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ef4444 0%, #b91c1c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 40px;
+            padding: 30px 35px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .logo-wrapper img {
+            width: 100px;
+            height: 100px;
+            border-radius: 28px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px -5px rgba(239,68,68,0.3);
+        }
+        .brand h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .brand .tagline {
+            font-size: 13px;
+            color: #ef4444;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .synara-badge {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .badge {
+            display: inline-block;
+            background: #f8fafc;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .badge span { color: #ef4444; }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .sub-title {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Wizard Progress */
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .wizard-steps::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: #e2e8f0;
+            z-index: 0;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        .step .circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+        .step.active .circle {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(239,68,68,0.2);
+        }
+        .step.completed .circle {
+            background: #10b981;
+            color: white;
+        }
+        .step .label {
+            font-size: 10px;
+            margin-top: 4px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .step.active .label {
+            color: #ef4444;
+            font-weight: 700;
+        }
+        .step.completed .label {
+            color: #10b981;
+        }
+
+        /* Form Panels */
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .step-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .form-group label .required {
+            color: #ef4444;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #ef4444;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.08);
+        }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+
+        /* File upload */
+        .file-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .file-upload:hover {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .file-upload .icon {
+            font-size: 28px;
+            color: #94a3b8;
+        }
+        .file-upload .label {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .file-upload .filename {
+            font-size: 12px;
+            color: #10b981;
+            margin-top: 6px;
+        }
+        .file-upload .preview {
+            max-width: 100%;
+            max-height: 120px;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: none;
+        }
+        .file-upload input[type="file"] { display: none; }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ef4444;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 12px;
+        }
+        .nav-buttons button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-prev {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-prev:hover { background: #cbd5e1; }
+        .btn-next {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-next:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(239,68,68,0.4); }
+        .btn-submit {
+            background: #10b981;
+            color: white;
+        }
+        .btn-submit:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(16,185,129,0.4); }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 16px;
+        }
+        .summary-item .label { font-weight: 600; color: #64748b; font-size: 12px; }
+        .summary-item .value { font-weight: 500; color: #1e293b; font-size: 14px; }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .success-message i { font-size: 48px; display: block; margin-bottom: 8px; }
+
+        .message { padding: 12px; border-radius: 12px; margin-bottom: 16px; }
+        .message-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .logo-wrapper img { width: 80px; height: 80px; }
+            .wizard-steps .label { font-size: 8px; }
+            .nav-buttons { flex-direction: column; }
+            .nav-buttons button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logo & Brand -->
+    <div class="logo-section">
+        <div class="logo-wrapper">
+            <img src="/images/bodake-logo.png" alt="Boda Ke">
+        </div>
+        <div class="brand">
+            <h1>Boda Ke</h1>
+            <div class="tagline">Deliver more. Earn more.</div>
+        </div>
+    </div>
+    <div class="synara-badge">
+        <div class="badge">A <span>SYNARA</span> COMPANY</div>
+    </div>
+
+    <div class="form-title">🚀 Join as a Rider</div>
+    <div class="sub-title">Complete the form to become a Boda Ke delivery partner</div>
+
+    <!-- Wizard Progress -->
+    <div class="wizard-steps" id="wizardSteps">
+        <div class="step active" data-step="1">
+            <div class="circle">1</div>
+            <div class="label">Personal</div>
+        </div>
+        <div class="step" data-step="2">
+            <div class="circle">2</div>
+            <div class="label">Vehicle &amp; ID</div>
+        </div>
+        <div class="step" data-step="3">
+            <div class="circle">3</div>
+            <div class="label">Location &amp; Hours</div>
+        </div>
+        <div class="step" data-step="4">
+            <div class="circle">4</div>
+            <div class="label">Review</div>
+        </div>
+    </div>
+
+    <!-- Message container -->
+    <div id="messageContainer"></div>
+
+    <!-- Step 1: Personal Info -->
+    <div class="step-panel active" data-step="1">
+        <div class="form-group">
+            <label>Full Name (as on National ID) <span class="required">*</span></label>
+            <input type="text" id="fullName" placeholder="e.g. John Mwangi" required>
+        </div>
+        <div class="form-group">
+            <label>Phone Number <span class="required">*</span></label>
+            <input type="tel" id="phone" placeholder="2547XXXXXXXX" required>
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+            <label>National ID Number <span class="required">*</span></label>
+            <input type="text" id="idNumber" placeholder="e.g. 12345678" required>
+        </div>
+    </div>
+
+    <!-- Step 2: Vehicle & ID Upload -->
+    <div class="step-panel" data-step="2">
+        <div class="form-group">
+            <label>Vehicle Type <span class="required">*</span></label>
+            <select id="vehicleType" required>
+                <option value="">Select your vehicle</option>
+                <option value="Motorcycle">Motorcycle</option>
+                <option value="Car (sedan)">Car (sedan)</option>
+                <option value="Car (hatchback)">Car (hatchback)</option>
+                <option value="Van">Van</option>
+                <option value="Truck">Truck</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Vehicle Registration Plate <span class="required">*</span></label>
+            <input type="text" id="vehiclePlate" placeholder="e.g. KBD 123Z" required>
+        </div>
+        <div class="form-group">
+            <label>Upload National ID – Front Side <span class="required">*</span></label>
+            <div class="file-upload" id="idFrontUpload">
+                <div class="icon"><i class="fas fa-id-card"></i></div>
+                <div class="label">Tap to select ID (front)</div>
+                <div class="filename" id="idFrontFileName"></div>
+                <img class="preview" id="idFrontPreview" alt="ID Front Preview">
+                <input type="file" id="idFrontFile" accept="image/*" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Upload National ID – Back Side <span class="required">*</span></label>
+            <div class="file-upload" id="idBackUpload">
+                <div class="icon"><i class="fas fa-id-card"></i></div>
+                <div class="label">Tap to select ID (back)</div>
+                <div class="filename" id="idBackFileName"></div>
+                <img class="preview" id="idBackPreview" alt="ID Back Preview">
+                <input type="file" id="idBackFile" accept="image/*" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Location & Working Hours -->
+    <div class="step-panel" data-step="3">
+        <div class="form-group">
+            <label>County <span class="required">*</span></label>
+            <select id="county" required>
+                <option value="">Select County</option>
+                <option value="Nairobi">Nairobi</option>
+                <option value="Mombasa">Mombasa</option>
+                <option value="Kisumu">Kisumu</option>
+                <option value="Nakuru">Nakuru</option>
+                <option value="Kiambu">Kiambu</option>
+                <option value="Kitui">Kitui</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Town <span class="required">*</span></label>
+            <input type="text" id="town" placeholder="e.g. Westlands, Nairobi CBD" required>
+        </div>
+        <div class="form-group">
+            <label>Preferred Working Hours</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" value="Morning (6am-12pm)"> Morning (6am-12pm)</label>
+                <label><input type="checkbox" value="Afternoon (12pm-6pm)"> Afternoon (12pm-6pm)</label>
+                <label><input type="checkbox" value="Evening (6pm-12am)"> Evening (6pm-12am)</label>
+                <label><input type="checkbox" value="Night (12am-6am)"> Night (12am-6am)</label>
+                <label><input type="checkbox" value="Flexible"> Flexible</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Additional notes (optional)</label>
+            <textarea id="notes" placeholder="Any other information for us"></textarea>
+        </div>
+    </div>
+
+    <!-- Step 4: Review & Submit -->
+    <div class="step-panel" data-step="4">
+        <h3 style="margin-bottom: 12px;">📋 Review Your Application</h3>
+        <div class="summary-grid" id="summaryGrid">
+            <div class="summary-item"><div class="label">Full Name</div><div class="value" id="sName">-</div></div>
+            <div class="summary-item"><div class="label">Phone</div><div class="value" id="sPhone">-</div></div>
+            <div class="summary-item"><div class="label">Email</div><div class="value" id="sEmail">-</div></div>
+            <div class="summary-item"><div class="label">ID Number</div><div class="value" id="sIdNumber">-</div></div>
+            <div class="summary-item"><div class="label">Vehicle</div><div class="value" id="sVehicle">-</div></div>
+            <div class="summary-item"><div class="label">Plate</div><div class="value" id="sPlate">-</div></div>
+            <div class="summary-item"><div class="label">County</div><div class="value" id="sCounty">-</div></div>
+            <div class="summary-item"><div class="label">Town</div><div class="value" id="sTown">-</div></div>
+            <div class="summary-item" style="grid-column:1/-1;"><div class="label">Working Hours</div><div class="value" id="sHours">-</div></div>
+            <div class="summary-item" style="grid-column:1/-1;"><div class="label">Notes</div><div class="value" id="sNotes">-</div></div>
+            <div class="summary-item" style="grid-column:1/-1;"><div class="label">ID Front</div><div class="value" id="sIdFront">-</div></div>
+            <div class="summary-item" style="grid-column:1/-1;"><div class="label">ID Back</div><div class="value" id="sIdBack">-</div></div>
+        </div>
+        <div class="nav-buttons" style="margin-top:20px;">
+            <button class="btn-prev" onclick="goToStep(3)">← Back</button>
+            <button class="btn-submit" onclick="submitApplication()"><i class="fas fa-paper-plane"></i> Submit Application</button>
+        </div>
+    </div>
+
+    <!-- Navigation buttons (for steps 1-3) -->
+    <div class="nav-buttons" id="navButtons">
+        <button class="btn-prev" id="prevBtn" onclick="goToStep(currentStep-1)" style="display:none;">← Back</button>
+        <button class="btn-next" id="nextBtn" onclick="goToStep(currentStep+1)">Next →</button>
+    </div>
+
+    <!-- Hidden for step 4 nav (already inside step panel) -->
+</div>
+
+<script>
+    // ─── Wizard State ──────────────────────────────────────────
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    // ─── DOM refs ─────────────────────────────────────────────
+    const steps = document.querySelectorAll('.step');
+    const panels = document.querySelectorAll('.step-panel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const navButtons = document.getElementById('navButtons');
+
+    // ─── File upload handlers with preview ────────────────────
+    function setupFileUpload(uploadId, fileInputId, fileNameId, previewId) {
+        const uploadDiv = document.getElementById(uploadId);
+        const fileInput = document.getElementById(fileInputId);
+        const fileNameSpan = document.getElementById(fileNameId);
+        const previewImg = document.getElementById(previewId);
+
+        uploadDiv.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file) {
+                fileNameSpan.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    previewImg.src = ev.target.result;
+                    previewImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileNameSpan.textContent = '';
+                previewImg.style.display = 'none';
+            }
+        });
+    }
+
+    setupFileUpload('idFrontUpload', 'idFrontFile', 'idFrontFileName', 'idFrontPreview');
+    setupFileUpload('idBackUpload', 'idBackFile', 'idBackFileName', 'idBackPreview');
+
+    // ─── Show/hide step ──────────────────────────────────────
+    function goToStep(step) {
+        if (step < 1 || step > totalSteps) return;
+        if (step > currentStep) {
+            if (!validateStep(currentStep)) return;
+        }
+        currentStep = step;
+        updateUI();
+    }
+
+    function validateStep(step) {
+        if (step === 1) {
+            const name = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const idNum = document.getElementById('idNumber').value.trim();
+            if (!name) { showMessage('Please enter your full name.', 'error'); return false; }
+            if (!phone || phone.length < 10) { showMessage('Please enter a valid phone number.', 'error'); return false; }
+            if (!idNum || idNum.length < 5) { showMessage('Please enter your National ID number.', 'error'); return false; }
+            return true;
+        }
+        if (step === 2) {
+            const vehicle = document.getElementById('vehicleType').value;
+            const plate = document.getElementById('vehiclePlate').value.trim();
+            const frontFile = document.getElementById('idFrontFile').files[0];
+            const backFile = document.getElementById('idBackFile').files[0];
+            if (!vehicle) { showMessage('Please select your vehicle type.', 'error'); return false; }
+            if (!plate) { showMessage('Please enter your vehicle registration plate.', 'error'); return false; }
+            if (!frontFile) { showMessage('Please upload the front side of your National ID.', 'error'); return false; }
+            if (!backFile) { showMessage('Please upload the back side of your National ID.', 'error'); return false; }
+            return true;
+        }
+        if (step === 3) {
+            const county = document.getElementById('county').value;
+            const town = document.getElementById('town').value.trim();
+            if (!county) { showMessage('Please select your county.', 'error'); return false; }
+            if (!town) { showMessage('Please enter your town.', 'error'); return false; }
+            return true;
+        }
+        return true;
+    }
+
+    function updateUI() {
+        steps.forEach(el => {
+            const num = parseInt(el.dataset.step);
+            el.classList.remove('active', 'completed');
+            if (num === currentStep) el.classList.add('active');
+            else if (num < currentStep) el.classList.add('completed');
+        });
+
+        panels.forEach(p => {
+            p.classList.toggle('active', parseInt(p.dataset.step) === currentStep);
+        });
+
+        if (currentStep === totalSteps) {
+            navButtons.style.display = 'none';
+        } else {
+            navButtons.style.display = 'flex';
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-block';
+            nextBtn.textContent = currentStep === totalSteps-1 ? 'Review & Submit' : 'Next →';
+        }
+
+        if (currentStep === 4) {
+            populateSummary();
+        }
+
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function populateSummary() {
+        document.getElementById('sName').textContent = document.getElementById('fullName').value.trim() || '-';
+        document.getElementById('sPhone').textContent = document.getElementById('phone').value.trim() || '-';
+        document.getElementById('sEmail').textContent = document.getElementById('email').value.trim() || '-';
+        document.getElementById('sIdNumber').textContent = document.getElementById('idNumber').value.trim() || '-';
+        const vehicleSelect = document.getElementById('vehicleType');
+        document.getElementById('sVehicle').textContent = vehicleSelect.options[vehicleSelect.selectedIndex]?.text || '-';
+        document.getElementById('sPlate').textContent = document.getElementById('vehiclePlate').value.trim() || '-';
+        const countySelect = document.getElementById('county');
+        document.getElementById('sCounty').textContent = countySelect.options[countySelect.selectedIndex]?.text || '-';
+        document.getElementById('sTown').textContent = document.getElementById('town').value.trim() || '-';
+        const hours = Array.from(document.querySelectorAll('.checkbox-group input:checked'))
+            .map(cb => cb.value).join(', ') || 'Not specified';
+        document.getElementById('sHours').textContent = hours;
+        document.getElementById('sNotes').textContent = document.getElementById('notes').value.trim() || '-';
+        document.getElementById('sIdFront').textContent = document.getElementById('idFrontFile').files[0]?.name || 'Not uploaded';
+        document.getElementById('sIdBack').textContent = document.getElementById('idBackFile').files[0]?.name || 'Not uploaded';
+    }
+
+    function showMessage(msg, type) {
+        const container = document.getElementById('messageContainer');
+        container.innerHTML = `<div class="message message-${type}">${msg}</div>`;
+        setTimeout(() => container.innerHTML = '', 5000);
+    }
+
+    // ─── Submit ─────────────────────────────────────────────────
+    function submitApplication() {
+        for (let i = 1; i <= 3; i++) {
+            if (!validateStep(i)) return;
+        }
+
+        const name = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const idNumber = document.getElementById('idNumber').value.trim();
+        const vehicleType = document.getElementById('vehicleType').value;
+        const vehiclePlate = document.getElementById('vehiclePlate').value.trim();
+        const county = document.getElementById('county').value;
+        const town = document.getElementById('town').value.trim();
+        const hours = Array.from(document.querySelectorAll('.checkbox-group input:checked'))
+            .map(cb => cb.value);
+        const notes = document.getElementById('notes').value.trim();
+
+        // Get file names (in production, upload files and store URLs)
+        const frontFile = document.getElementById('idFrontFile').files[0];
+        const backFile = document.getElementById('idBackFile').files[0];
+        const frontFileName = frontFile ? frontFile.name : '';
+        const backFileName = backFile ? backFile.name : '';
+
+        // Build rider object
+        const rider = {
+            id: 'rider_' + Date.now(),
+            name,
+            phone,
+            email,
+            idNumber,
+            vehicleType,
+            vehiclePlate,
+            county,
+            town,
+            workingHours: hours,
+            notes,
+            idFront: frontFileName,
+            idBack: backFileName,
+            status: 'pending',
+            isOnline: false,
+            rating: 5.0,
+            totalDeliveries: 0,
+            earnings: 0,
+            createdAt: new Date().toISOString()
+        };
+
+        // Save to localStorage
+        let riders = JSON.parse(localStorage.getItem('bodaRiders') || '[]');
+        if (riders.find(r => r.phone === phone)) {
+            showMessage('A rider with this phone already exists.', 'error');
+            return;
+        }
+        riders.push(rider);
+        localStorage.setItem('bodaRiders', JSON.stringify(riders));
+
+        // Show success message
+        const container = document.querySelector('.container');
+        container.innerHTML = `
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i>
+                <h2>Application Submitted!</h2>
+                <p>Thank you, ${name}. Your application has been received.</p>
+                <p style="margin-top: 8px;">You will receive an SMS with login details once your account is approved.</p>
+                <br>
+                <a href="/" style="color:#ef4444; font-weight:600;">← Back to Home</a>
+            </div>
+        `;
+    }
+
+    // ─── Navigation button events ────────────────────────────
+    document.getElementById('prevBtn').addEventListener('click', () => goToStep(currentStep-1));
+    document.getElementById('nextBtn').addEventListener('click', () => goToStep(currentStep+1));
+
+    // ─── Init ──────────────────────────────────────────────────
+    updateUI();
+
+    // ─── Expose functions for inline onclick ───────────────────
+    window.goToStep = goToStep;
+    window.submitApplication = submitApplication;
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "dropship-platform",
+  "version": "1.0.0",
+  "description": "Decentralized dropshipping platform with M-Pesa",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "africastalking": "^0.6.0",
+    "axios": "^1.18.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.2",
+    "jimp": "^1.6.1",
+    "multer": "^2.2.0",
+    "node-cron": "^4.5.0",
+    "nodemailer": "^6.10.1",
+    "sharp": "^0.33.0",
+    "sqlite3": "^5.1.7"
+  }
+}

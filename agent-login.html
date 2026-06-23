@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Agent Profile - Synara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* (same styles as previous version – omitted for brevity) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 40px;
+            padding: 30px 35px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+        }
+        .logo-section { text-align: center; margin-bottom: 20px; }
+        .logo-section h1 { font-size: 28px; color: #1e293b; }
+        .logo-section p { color: #64748b; }
+        .form-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; font-size: 13px; color: #475569; margin-bottom: 4px; }
+        .form-group label .required { color: #ef4444; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.08);
+        }
+
+        .file-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-upload:hover { border-color: #10b981; background: #f0fdf4; }
+        .file-upload .icon { font-size: 28px; color: #94a3b8; }
+        .file-upload .label { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .file-upload .filename { font-size: 12px; color: #10b981; margin-top: 6px; }
+        .file-upload .preview { max-width: 100%; max-height: 120px; border-radius: 8px; margin-top: 8px; display: none; }
+        .file-upload input[type="file"] { display: none; }
+
+        .nav-buttons { display: flex; justify-content: flex-end; margin-top: 24px; gap: 12px; }
+        .btn-submit {
+            padding: 12px 32px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-submit:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 8px 20px -8px rgba(16,185,129,0.4); }
+        .btn-back {
+            padding: 12px 32px;
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-back:hover { background: #cbd5e1; }
+
+        .message { padding: 12px; border-radius: 12px; margin-bottom: 16px; }
+        .message-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .message-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .success-message i { font-size: 48px; display: block; margin-bottom: 8px; }
+
+        @media (max-width: 480px) { .container { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="logo-section">
+            <h1>🏪 Complete Your Profile</h1>
+            <p>Please provide your business details to start selling</p>
+        </div>
+        <div class="form-title">Agent &amp; Shop Information</div>
+
+        <div id="messageContainer"></div>
+
+        <form id="registerForm">
+            <!-- Owner Details -->
+            <div class="form-group">
+                <label>Owner's Official Name <span class="required">*</span></label>
+                <input type="text" id="ownerName" placeholder="Full name as on ID" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number (Username) <span class="required">*</span></label>
+                <input type="tel" id="agentPhone" placeholder="2547XXXXXXXX" required>
+            </div>
+            <div class="form-group">
+                <label>Set Password <span class="required">*</span></label>
+                <input type="password" id="password" placeholder="Create a password (min 6 characters)" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label>Confirm Password <span class="required">*</span></label>
+                <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group">
+                <label>National ID Number <span class="required">*</span></label>
+                <input type="text" id="idNumber" placeholder="e.g. 12345678" required>
+            </div>
+            <div class="form-group">
+                <label>Upload National ID – Front Side <span class="required">*</span></label>
+                <div class="file-upload" id="idFrontUpload">
+                    <div class="icon"><i class="fas fa-id-card"></i></div>
+                    <div class="label">Tap to select ID (front)</div>
+                    <div class="filename" id="idFrontFileName"></div>
+                    <img class="preview" id="idFrontPreview" alt="ID Front Preview">
+                    <input type="file" id="idFrontFile" accept="image/*" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Upload National ID – Back Side <span class="required">*</span></label>
+                <div class="file-upload" id="idBackUpload">
+                    <div class="icon"><i class="fas fa-id-card"></i></div>
+                    <div class="label">Tap to select ID (back)</div>
+                    <div class="filename" id="idBackFileName"></div>
+                    <img class="preview" id="idBackPreview" alt="ID Back Preview">
+                    <input type="file" id="idBackFile" accept="image/*" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>KRA PIN <span class="required">*</span></label>
+                <input type="text" id="kraPin" placeholder="e.g. A123456789Z" required>
+            </div>
+
+            <!-- Next of Kin -->
+            <div class="form-group">
+                <label>Next of Kin Name <span class="required">*</span></label>
+                <input type="text" id="nextOfKinName" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+                <label>Next of Kin Relationship <span class="required">*</span></label>
+                <input type="text" id="nextOfKinRelation" placeholder="e.g. Spouse, Sibling, Parent" required>
+            </div>
+
+            <!-- Shop Details -->
+            <div class="form-group">
+                <label>Shop/Business Name <span class="required">*</span></label>
+                <input type="text" id="shopName" placeholder="Your shop name (will appear on buyer page)" required>
+            </div>
+            <div class="form-group">
+                <label>Shop Phone / WhatsApp Number <span class="required">*</span></label>
+                <input type="tel" id="shopPhone" placeholder="2547XXXXXXXX" required>
+            </div>
+            <div class="form-group">
+                <label>Physical Location (Address) <span class="required">*</span></label>
+                <input type="text" id="shopLocation" placeholder="e.g. Westlands, Nairobi" required>
+            </div>
+
+            <div class="nav-buttons">
+                <button type="button" class="btn-back" onclick="window.location.href='/agent.html'">Skip for now</button>
+                <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Save Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ─── File upload with preview ──────────────────────────
+        function setupUpload(uploadId, fileInputId, fileNameId, previewId) {
+            const uploadDiv = document.getElementById(uploadId);
+            const fileInput = document.getElementById(fileInputId);
+            const fileNameSpan = document.getElementById(fileNameId);
+            const previewImg = document.getElementById(previewId);
+
+            uploadDiv.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', function(e) {
+                const file = this.files[0];
+                if (file) {
+                    fileNameSpan.textContent = file.name;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        previewImg.src = ev.target.result;
+                        previewImg.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    fileNameSpan.textContent = '';
+                    previewImg.style.display = 'none';
+                }
+            });
+        }
+        setupUpload('idFrontUpload', 'idFrontFile', 'idFrontFileName', 'idFrontPreview');
+        setupUpload('idBackUpload', 'idBackFile', 'idBackFileName', 'idBackPreview');
+
+        // ─── Form submission ────────────────────────────────────
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const ownerName = document.getElementById('ownerName').value.trim();
+            const agentPhone = document.getElementById('agentPhone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const idNumber = document.getElementById('idNumber').value.trim();
+            const kraPin = document.getElementById('kraPin').value.trim();
+            const nextOfKinName = document.getElementById('nextOfKinName').value.trim();
+            const nextOfKinRelation = document.getElementById('nextOfKinRelation').value.trim();
+            const shopName = document.getElementById('shopName').value.trim();
+            const shopPhone = document.getElementById('shopPhone').value.trim();
+            const shopLocation = document.getElementById('shopLocation').value.trim();
+
+            // Validate
+            if (!ownerName || !agentPhone || !password || !confirmPassword || !idNumber || !kraPin || !nextOfKinName || !nextOfKinRelation || !shopName || !shopPhone || !shopLocation) {
+                showMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters.', 'error');
+                return;
+            }
+            const frontFile = document.getElementById('idFrontFile').files[0];
+            const backFile = document.getElementById('idBackFile').files[0];
+            if (!frontFile || !backFile) {
+                showMessage('Please upload both sides of your National ID.', 'error');
+                return;
+            }
+
+            // Build business details
+            const businessDetails = {
+                ownerName,
+                idNumber,
+                idFront: frontFile.name,
+                idBack: backFile.name,
+                kraPin,
+                nextOfKinName,
+                nextOfKinRelation,
+                shopName,
+                shopPhone,
+                shopLocation,
+                completed: true,
+                registeredAt: new Date().toISOString()
+            };
+
+            // Retrieve agents from localStorage
+            let agents = JSON.parse(localStorage.getItem('synara_agents') || '[]');
+            const existingIndex = agents.findIndex(a => a.phone === agentPhone);
+
+            if (existingIndex !== -1) {
+                // Update existing agent
+                agents[existingIndex].password = password;
+                agents[existingIndex].businessDetails = businessDetails;
+                agents[existingIndex].name = ownerName;
+                agents[existingIndex].location = shopLocation;
+                showMessage('Profile updated successfully!', 'success');
+            } else {
+                // Create new agent
+                const newAgent = {
+                    id: 'agent_' + Date.now(),
+                    name: ownerName,
+                    phone: agentPhone,
+                    password: password,
+                    location: shopLocation,
+                    businessDetails: businessDetails,
+                    createdAt: new Date().toISOString()
+                };
+                agents.push(newAgent);
+                showMessage('Registration successful!', 'success');
+            }
+            localStorage.setItem('synara_agents', JSON.stringify(agents));
+
+            // Store phone in session
+            localStorage.setItem('agentPhone', agentPhone);
+            localStorage.setItem('agentRegistered', 'true');
+
+            // Show success and redirect
+            const container = document.getElementById('app');
+            container.innerHTML = `
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Profile Complete!</h2>
+                    <p>Your business details have been saved successfully.</p>
+                    <p style="margin-top: 8px;">You will be redirected to your dashboard in a moment.</p>
+                </div>
+            `;
+            setTimeout(() => {
+                window.location.href = '/agent.html';
+            }, 2000);
+        });
+
+        function showMessage(msg, type) {
+            const container = document.getElementById('messageContainer');
+            const cssClass = type === 'error' ? 'message-error' : 'message-success';
+            container.innerHTML = `<div class="message ${cssClass}">${msg}</div>`;
+            setTimeout(() => container.innerHTML = '', 5000);
+        }
+    </script>
+</body>
+</html>

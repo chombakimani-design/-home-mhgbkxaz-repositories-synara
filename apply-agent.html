@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Become a SYNARA Agent - Apply Now</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .apply-container {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .logo { text-align: center; margin-bottom: 24px; }
+        .logo img { height: 60px; margin-bottom: 12px; }
+        .logo h1 { font-size: 28px; color: #1e293b; }
+        .logo p { color: #64748b; font-size: 14px; }
+        h2 { font-size: 22px; margin-bottom: 8px; color: #1e293b; }
+        .subtitle { color: #64748b; margin-bottom: 24px; font-size: 14px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1e293b; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #10b981; }
+        .row { display: flex; gap: 16px; }
+        .row > div { flex: 1; }
+        .file-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
+        }
+        .file-upload:hover { border-color: #10b981; }
+        .file-name { font-size: 11px; color: #64748b; margin-top: 5px; }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        button:hover { transform: translateY(-2px); }
+        .message { padding: 12px; border-radius: 12px; margin-bottom: 20px; display: none; }
+        .message-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; display: block; }
+        .message-error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; display: block; }
+        .message-info { background: #dbeafe; color: #1e40af; border-left: 4px solid #3b82f6; display: block; }
+        .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #94a3b8; }
+        .footer a { color: #10b981; text-decoration: none; }
+        .upload-preview { margin-top: 8px; display: none; }
+        .upload-preview img { max-width: 100px; border-radius: 8px; }
+        @media (max-width: 550px) { .apply-container { padding: 24px; } .row { flex-direction: column; gap: 0; } }
+    </style>
+</head>
+<body>
+<div class="apply-container">
+    <div class="logo">
+        <img src="/images/synara-logo.png" alt="SYNARA">
+        <h1>Become an Agent</h1>
+        <p>Join SYNARA and grow your business</p>
+    </div>
+    <h2>📝 Agent Application</h2>
+    <div class="subtitle">Complete the form below. We'll review and contact you within 48 hours.</div>
+    
+    <div id="message" class="message"></div>
+    
+    <form id="agentApplicationForm" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group"><label>Owner Name *</label><input type="text" id="ownerName" required></div>
+            <div class="form-group"><label>Business Name *</label><input type="text" id="businessName" required></div>
+        </div>
+        <div class="row">
+            <div class="form-group"><label>Phone Number *</label><input type="tel" id="phone" placeholder="2547XXXXXXX" required></div>
+            <div class="form-group"><label>Email *</label><input type="email" id="email" required></div>
+        </div>
+        <div class="row">
+            <div class="form-group"><label>WhatsApp (Optional)</label><input type="tel" id="whatsapp" placeholder="2547XXXXXXX"></div>
+            <div class="form-group"><label>ID/Registration Number</label><input type="text" id="idNumber" placeholder="Optional"></div>
+        </div>
+        <div class="row">
+            <div class="form-group"><label>County *</label>
+                <select id="county" required>
+                    <option value="">Select County</option>
+                    <option>Nairobi</option><option>Mombasa</option><option>Kisumu</option>
+                    <option>Nakuru</option><option>Kiambu</option><option>Kitui</option>
+                    <option>Machakos</option><option>Meru</option><option>Kakamega</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Location/Town *</label><input type="text" id="location" required></div>
+        </div>
+        <div class="row">
+            <div class="form-group"><label>Business Category *</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option>Electronics</option><option>Fashion</option><option>Home & Living</option>
+                    <option>Beauty</option><option>Food & Beverages</option><option>Services</option>
+                    <option>Agriculture</option><option>Other</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Est. Monthly Sales (KES)</label>
+                <select id="monthlySales">
+                    <option value="">Select range</option>
+                    <option>Under 50,000</option><option>50,000 - 200,000</option>
+                    <option>200,000 - 500,000</option><option>Above 500,000</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"><label>Brief Description of Products/Services</label>
+            <textarea id="description" rows="3" placeholder="Tell us what you sell..."></textarea>
+        </div>
+        
+        <!-- Business Registration Proof Upload -->
+        <div class="form-group">
+            <label>Business Registration Proof (Optional for now, required for certain categories)</label>
+            <div class="file-upload" onclick="document.getElementById('regFile').click()">
+                📎 Click to upload business registration document
+                <input type="file" id="regFile" style="display:none" accept="image/*,.pdf">
+            </div>
+            <div class="file-name" id="fileName"></div>
+            <div class="upload-preview" id="uploadPreview"></div>
+        </div>
+        
+        <button type="submit">✉️ Submit Application</button>
+    </form>
+    <div class="footer">Already have an account? <a href="/agent-login.html">Login here</a></div>
+</div>
+
+<script>
+    let selectedFile = null;
+    
+    document.getElementById('regFile').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            selectedFile = file;
+            document.getElementById('fileName').innerText = file.name;
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const preview = document.getElementById('uploadPreview');
+                    preview.innerHTML = `<img src="${ev.target.result}" style="max-width:100px; border-radius:8px;">`;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+    
+    document.getElementById('agentApplicationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const messageDiv = document.getElementById('message');
+        
+        const formData = new FormData();
+        formData.append('ownerName', document.getElementById('ownerName').value);
+        formData.append('businessName', document.getElementById('businessName').value);
+        formData.append('phone', document.getElementById('phone').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('whatsapp', document.getElementById('whatsapp').value);
+        formData.append('idNumber', document.getElementById('idNumber').value);
+        formData.append('county', document.getElementById('county').value);
+        formData.append('location', document.getElementById('location').value);
+        formData.append('category', document.getElementById('category').value);
+        formData.append('monthlySales', document.getElementById('monthlySales').value);
+        formData.append('description', document.getElementById('description').value);
+        if (selectedFile) {
+            formData.append('registrationProof', selectedFile);
+        }
+        
+        try {
+            const res = await fetch('/api/agent/apply', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            
+            if (res.ok) {
+                messageDiv.className = 'message message-success';
+                messageDiv.innerHTML = '✅ Application submitted! Please check your email to verify your address.';
+                document.getElementById('agentApplicationForm').reset();
+                document.getElementById('fileName').innerText = '';
+                document.getElementById('uploadPreview').style.display = 'none';
+            } else {
+                messageDiv.className = 'message message-error';
+                messageDiv.innerHTML = data.error || 'Application failed. Please try again.';
+            }
+        } catch (err) {
+            messageDiv.className = 'message message-error';
+            messageDiv.innerHTML = 'Connection error. Please try again.';
+        }
+    });
+</script>
+</body>
+</html>

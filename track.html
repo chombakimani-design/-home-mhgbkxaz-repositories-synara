@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Your Order - Dropship Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: white; border-radius: 16px; padding: 30px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h1 { color: #1e293b; margin-bottom: 20px; }
+        input, button { padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+        button { background: #2563eb; color: white; border: none; cursor: pointer; }
+        .tracking-steps { display: flex; justify-content: space-between; margin: 30px 0; flex-wrap: wrap; }
+        .step { text-align: center; flex: 1; position: relative; }
+        .step .icon { width: 50px; height: 50px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 24px; }
+        .step.completed .icon { background: #10b981; color: white; }
+        .step.active .icon { background: #2563eb; color: white; animation: pulse 1s infinite; }
+        .step .label { font-size: 12px; color: #64748b; }
+        .step.completed .label { color: #10b981; font-weight: bold; }
+        .step.active .label { color: #2563eb; font-weight: bold; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .order-info { background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .status-pending_payment { background: #fef3c7; color: #92400e; }
+        .status-paid { background: #dbeafe; color: #1e40af; }
+        .status-shipped { background: #c7d2fe; color: #3730a3; }
+        .status-delivered { background: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" style="text-align: center;">
+            <h1>📦 Track Your Order</h1>
+            <p>Enter your Order ID to see delivery status</p>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <input type="text" id="orderId" placeholder="e.g., ORD1234567890" style="flex: 1;">
+                <button onclick="trackOrder()">Track Order</button>
+            </div>
+        </div>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        async function trackOrder() {
+            const orderId = document.getElementById('orderId').value;
+            if (!orderId) {
+                alert('Please enter an Order ID');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="card" style="text-align: center;">Loading...</div>';
+            
+            try {
+                const res = await fetch(`/api/track/${orderId}`);
+                const order = await res.json();
+                
+                if (res.ok) {
+                    displayOrderStatus(order);
+                } else {
+                    resultDiv.innerHTML = `<div class="card" style="text-align: center; color: red;">${order.error || 'Order not found'}</div>`;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = '<div class="card" style="text-align: center; color: red;">Error fetching order</div>';
+            }
+        }
+        
+        function displayOrderStatus(order) {
+            const steps = [
+                { status: 'pending_payment', label: 'Order Placed', icon: '📝' },
+                { status: 'paid', label: 'Payment Confirmed', icon: '💰' },
+                { status: 'shipped', label: 'Shipped', icon: '🚚' },
+                { status: 'delivered', label: 'Delivered', icon: '✅' }
+            ];
+            
+            let currentStepIndex = steps.findIndex(s => s.status === order.status);
+            if (currentStepIndex === -1) currentStepIndex = 0;
+            
+            let stepsHtml = '<div class="tracking-steps">';
+            steps.forEach((step, index) => {
+                let stepClass = '';
+                if (index < currentStepIndex) stepClass = 'completed';
+                if (index === currentStepIndex) stepClass = 'active';
+                stepsHtml += `
+                    <div class="step ${stepClass}">
+                        <div class="icon">${step.icon}</div>
+                        <div class="label">${step.label}</div>
+                    </div>
+                `;
+            });
+            stepsHtml += '</div>';
+            
+            const statusText = order.status.replace('_', ' ').toUpperCase();
+            const date = new Date(order.created_at).toLocaleString();
+            
+            const html = `
+                <div class="card">
+                    <h2>Order #${order.id}</h2>
+                    ${stepsHtml}
+                    <div class="order-info">
+                        <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${statusText}</span></p>
+                        <p><strong>Product:</strong> ${order.product_name}</p>
+                        <p><strong>Amount:</strong> KES ${order.amount.toLocaleString()}</p>
+                        <p><strong>Order Date:</strong> ${date}</p>
+                        ${order.tracking_number ? `<p><strong>Tracking Number:</strong> ${order.tracking_number}</p>` : ''}
+                        ${order.shipped_at ? `<p><strong>Shipped Date:</strong> ${new Date(order.shipped_at).toLocaleString()}</p>` : ''}
+                        <p><strong>Agent:</strong> ${order.agent_name} (${order.agent_phone})</p>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        ${order.status === 'shipped' ? '<p>🚚 Your order is on the way! Expect delivery within 1-2 days.</p>' : ''}
+                        ${order.status === 'delivered' ? '<p>✅ Your order has been delivered. Thank you for shopping with us!</p>' : ''}
+                        ${order.status === 'paid' ? '<p>💰 Payment confirmed! Agent is preparing your order.</p>' : ''}
+                        ${order.status === 'pending_payment' ? '<p>⏳ Payment pending. Complete M-Pesa payment to process your order.</p>' : ''}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('result').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
