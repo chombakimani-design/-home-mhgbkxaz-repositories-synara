@@ -13,7 +13,8 @@
         .sidebar { width: 280px; background: rgba(30,41,59,0.95); backdrop-filter: blur(10px); color: white; position: fixed; height: 100vh; overflow-y: auto; transition: all 0.3s; z-index: 100; }
         .sidebar-header { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
         .logo { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; flex-shrink: 0; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 12px; }
         .logo-text { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
         .logo-tagline { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; }
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; margin: 4px 16px; border-radius: 12px; cursor: pointer; transition: all 0.2s; color: rgba(255,255,255,0.7); text-decoration: none; }
@@ -87,7 +88,9 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <div class="logo">
-                <div class="logo-icon">🚀</div>
+                <div class="logo-icon">
+                    <img src="images/synara-logo.png" alt="Synara Logo">
+                </div>
                 <div>
                     <div class="logo-text">SYNARA</div>
                     <div class="logo-tagline">Everything in sync.</div>
@@ -188,7 +191,10 @@
         <!-- Boda Ke Riders Panel -->
         <div id="boda-ridersPanel" class="content-panel">
             <div class="card">
-                <div class="card-header">➕ Register New Boda Rider</div>
+                <div class="card-header">
+                    <span>➕ Register New Boda Rider</span>
+                    <img src="images/bodake-logo.png" alt="Boda Ke" style="height:24px; width:auto;">
+                </div>
                 <form id="riderForm">
                     <div class="form-grid">
                         <input type="text" id="riderName" placeholder="Full Name" required>
@@ -212,7 +218,10 @@
                 <div class="stat-card"><div class="stat-number" id="activeRiders">0</div><div class="stat-label">Currently Online</div></div>
             </div>
             <div class="card">
-                <div class="card-header">🏍️ Boda Ke Riders Management</div>
+                <div class="card-header">
+                    <span>🏍️ Boda Ke Riders Management</span>
+                    <img src="images/bodake-logo.png" alt="Boda Ke" style="height:24px; width:auto;">
+                </div>
                 <div id="bodaRidersList" class="riders-grid"></div>
             </div>
         </div>
@@ -220,7 +229,10 @@
         <!-- Deliveries Panel -->
         <div id="deliveriesPanel" class="content-panel">
             <div class="card">
-                <div class="card-header">📦 Boda Ke Deliveries</div>
+                <div class="card-header">
+                    <span>📦 Boda Ke Deliveries</span>
+                    <img src="images/bodake-logo.png" alt="Boda Ke" style="height:24px; width:auto;">
+                </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table" id="deliveriesTable">
                         <thead>
